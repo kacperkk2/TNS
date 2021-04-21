@@ -1,16 +1,13 @@
-# This is a sample Python script.
+from TNS import TNS, Data
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    tidlists = [
+        [[1], [1,2,3], [1,3], [4], [3,6]],
+        [[1,4], [3], [2,3], [1,5]],
+        [[5,6], [1,2], [4,6], [3], [2]],
+        [[5], [7], [1,6], [3], [2], [3]],
+    ]
+    data = Data(tidlists)
+    algorithm = TNS()
+    algorithm.run(data, k=10, min_conf=0.5, delta=40)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
