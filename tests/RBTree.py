@@ -15,7 +15,8 @@ class Node:
 class RBTree:
     def __init__(self):
         self.size = 0
-        self.root = None
+        self.sentinel = Node()
+        self.root = self.sentinel
 
     def size(self):
         return self.size
@@ -26,10 +27,10 @@ class RBTree:
     def rotate_left(self, x):
         y = x.right
         x.right = y.left
-        if y.left is not None:
+        if y.left is self.sentinel:
             y.left.parent = x
         y.parent = x.parent
-        if x.parent is None:
+        if x.parent is self.sentinel:
             self.root = y
         elif x is x.parent.left: #is?
             x.parent.left = y
@@ -41,10 +42,10 @@ class RBTree:
     def rotate_right(self, x):
         y = x.left
         x.left = y.right
-        if y.right is not None:
+        if y.right is not self.sentinel:
             y.right.parent = x
         y.parent = x.parent
-        if x.parent is None:
+        if x.parent is self.sentinel:
             self.root = y
         elif x is x.parent.right: #is?
             x.parent.right = y
@@ -57,9 +58,9 @@ class RBTree:
         z = Node()
         z.rule = element
 
-        y = None
+        y = self.sentinel
         x = self.root
-        while x is not None:
+        while x is not self.sentinel:
             y = x
             compare = z.rule.compare(x.rule)
             if compare < 0:
@@ -68,7 +69,7 @@ class RBTree:
                 x = x.right
         z.parent = y
         # empty tree
-        if y is None:
+        if y is self.sentinel:
             self.root = z
         elif z.rule.compare(y.rule) < 0:
             y.left = z
@@ -76,8 +77,8 @@ class RBTree:
             y.right = z
         self.size += 1
 
-        z.left = None
-        z.right = None
+        z.left = self.sentinel
+        z.right = self.sentinel
         z.color = RED
         self.after_add_fix(z)
         
@@ -114,7 +115,7 @@ class RBTree:
         self.root.color = BLACK
         
     def transplant(self, u, v):
-        if u.parent is None:
+        if u.parent is self.sentinel:
             self.root = v
         elif u is u.parent.left:
             u.parent.left = v
@@ -126,17 +127,17 @@ class RBTree:
 
     def remove(self, element):
         z = self.find(self.root, element)
-        if z is None:
+        if z is self.sentinel:
             return
         self.delete(z)
         
     def delete(self, z):
         y = z
         y_original_color = y.color
-        if z.left is None:
+        if z.left is self.sentinel:
             x = z.right
             self.transplant(z, z.right)
-        elif z.right is None:
+        elif z.right is self.sentinel:
             x = z.left
             self.transplant(z, z.left)
         else:
@@ -205,72 +206,72 @@ class RBTree:
     
     def lower(self, k):
         result = self.lower_node(k)
-        if result is None:
+        if result is self.sentinel:
             return None
         else:
             return result.rule
 
     def lower_node(self, k):
         x = self.root
-        while x is not None:
+        while x is not self.sentinel:
             if k.compare(x.rule) > 0:
-                if x.right is not None:
+                if x.right is not self.sentinel:
                     x = x.right
                 else:
                     return x
             else:
-                if x.left is not None:
+                if x.left is not self.sentinel:
                     x = x.left
                 else:
                     current = x
-                    while current.parent is not None and current.parent.left is current:
+                    while current.parent is not self.sentinel and current.parent.left is current:
                         current = current.parent
                     return current.parent
-        return None
+        return self.sentinel
     
     def pop_minimum(self):
-        if self.root is None:
+        if self.root is self.sentinel:
             return None
         x = self.root
-        while x.left is not None:
+        while x.left is not self.sentinel:
             x = x.left
         value = x.rule
         self.delete(x)
         return value
     
     def pop_maximum(self):
-        if self.root is None:
+        if self.root is self.sentinel:
             return None
         x = self.root
-        while x.right is not None:
+        while x.right is not self.sentinel:
             x = x.right
         value = x.rule
         self.delete(x)
         return value
     
     def get_minimum(self):
-        if self.root is None:
+        if self.root is self.sentinel:
             return None
         x = self.root
-        while x.left is not None:
+        while x.left is not self.sentinel:
             x = x.left
         return x.rule
 
     def get_minimum_with_node(self, node):
-        while node.left is not None:
+        while node.left is not self.sentinel:
             node = node.left
-        return node.rule
+        return node
 
     def get_maximum(self):
-        if self.root is None:
+        if self.root is self.sentinel:
             return None
         x = self.root
-        while x.right is not None:
+        while x.right is not self.sentinel:
             x = x.right
         return x.rule
     
     def find(self, x, k):
-        while x is not None and k is not x.rule:
+        while x is not self.sentinel and k is not x.rule:
             if k.compare(x.rule) < 0:
                 x = x.left
             else:
@@ -283,7 +284,7 @@ class RBTree:
         return self.to_str(self.root, "")
 
     def to_str(self, node, s):
-        if node is not None:
+        if node is not None and node.rule is not None:
             if node.left is not None:
                 s = self.to_str(node.left, s)
             s += str(node.rule) + " | "
