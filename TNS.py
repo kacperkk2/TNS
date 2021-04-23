@@ -1,5 +1,5 @@
 from RBTree import RBTree
-
+from Rule import Rule
 
 class Data:
     def __init__(self, data):
@@ -56,4 +56,100 @@ class TNS:
                         self.last_occurrences[item][tidlist_num] = sequence_num
 
     def generate_rules(self):
-        pass
+        for itemA in range(self.data.min_item, self.data.max_item, 1):
+            if itemA not in self.first_occurrences:
+                continue
+            if len(self.first_occurrences[itemA]) < self.dynamic_min_support:
+                continue
+
+            for itemB in range(itemA+1, self.data.max_item, 1):
+                if itemB not in self.first_occurrences:
+                    continue
+                if len(self.first_occurrences[itemB]) < self.dynamic_min_support:
+                    continue
+
+                tidlistsAB, tidlistsBA = self.find_common_tidlists(itemA, itemB)
+                if tidlistsAB is None and tidlistsBA is None:
+                    continue
+                self.find_rule_candidates(itemA, itemB, tidlistsAB, tidlistsBA)
+
+        while len(self.rules_candidates) > 0:
+            rule = self.rules_candidates.pop_maximum()
+            if rule.support < self.dynamic_min_support:
+                break
+
+            if rule.expandLR:
+                expandL(rule)
+                expandR(rule)
+            else:
+                expandL(rule)
+
+    def find_common_tidlists(self, itemA, itemB):
+        tidlistsAB = set()
+        tidlistsBA = set()
+        lastAOccurrences = self.last_occurrences[itemA]
+        firstAOccurrences = self.first_occurrences[itemA]
+        lastBOccurrences = self.last_occurrences[itemB]
+        firstBOccurrences = self.first_occurrences[itemB]
+
+        if len(self.first_occurrences[itemA]) > len(self.first_occurrences[itemB]):
+            left = len(self.first_occurrences[itemB])
+            for tidlist in firstBOccurrences:
+                if tidlist in firstAOccurrences:
+                    firstAOccInTid = firstAOccurrences[tidlist]
+                    lastAOccInTid = lastAOccurrences[tidlist]
+                    firstBOccInTid = firstBOccurrences[tidlist]
+                    lastBOccInTid = lastBOccurrences[tidlist]
+                    if firstAOccInTid < lastBOccInTid:
+                        tidlistsAB.add(tidlist)
+                    if firstBOccInTid < lastAOccInTid:
+                        tidlistsBA.add(tidlist)
+                left -= 1
+                if left + len(tidlistsAB) < self.dynamic_min_support \
+                        and left + len(tidlistsBA) < self.dynamic_min_support:
+                    return None, None  # try finding common tidlists for other items
+        else:
+            left = len(self.first_occurrences[itemA])
+            for tidlist in firstAOccurrences:
+                if tidlist in firstBOccurrences:
+                    firstAOccInTid = firstAOccurrences[tidlist]
+                    lastAOccInTid = lastAOccurrences[tidlist]
+                    firstBOccInTid = firstBOccurrences[tidlist]
+                    lastBOccInTid = lastBOccurrences[tidlist]
+                    if firstAOccInTid < lastBOccInTid:
+                        tidlistsAB.add(tidlist)
+                    if firstBOccInTid < lastAOccInTid:
+                        tidlistsBA.add(tidlist)
+                left -= 1
+                if left + len(tidlistsAB) < self.dynamic_min_support \
+                        and left + len(tidlistsBA) < self.dynamic_min_support:
+                    return None, None  # try finding common tidlists for other items
+        return tidlistsAB, tidlistsBA
+
+    def find_rule_candidates(self, itemA, itemB, tidlistsAB, tidlistsBA):
+        AB_support = len(tidlistsAB)
+        if AB_support >= self.dynamic_min_support:
+            AB_confidence = float(len(tidlistsAB)) / len(self.first_occurrences[itemA])
+            new_rule = Rule([itemA], [itemB], AB_confidence, AB_support,
+                            self.first_occurrences[itemA].keys(), self.first_occurrences[itemB].keys(),
+                            tidlistsAB, self.first_occurrences[itemA], self.last_occurrences[itemB])
+            if AB_confidence >= self.min_confidence:
+                self.save_to_top_k_rules(new_rule, AB_support)
+            save_to_candidates(new_rule, expandLR=True)
+
+        BA_support = len(tidlistsBA)
+        if BA_support >= self.dynamic_min_support:
+            BA_confidence = float(len(tidlistsBA)) / len(self.first_occurrences[itemB])
+            new_rule = Rule([itemB], [itemA], BA_confidence, BA_support,
+                            self.first_occurrences[itemB].keys(), self.first_occurrences[itemA].keys(),
+                            tidlistsBA, self.first_occurrences[itemB], self.last_occurrences[itemA])
+            if BA_confidence >= self.min_confidence:
+                self.save_to_top_k_rules(new_rule, BA_support)
+            save_to_candidates(new_rule, expandLR=True)
+
+
+
+
+
+
+
