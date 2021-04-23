@@ -1,4 +1,15 @@
 
+def subsume(rule1, rule2):
+    if len(rule1.antecedents) <= len(rule2.antecedents) \
+            and len(rule1.consequents) >= len(rule2.consequents):
+        rule2_ant_contain_rule1_ant = \
+            all(ant in rule2.antecedents for ant in rule1.antecedents)
+        rule1_con_contain_rule2_con = \
+            all(con in rule1.consequents for con in rule2.consequents)
+        return rule2_ant_contain_rule1_ant and rule1_con_contain_rule2_con
+    return False
+
+
 class Rule:
     def __init__(self, antecedents, consequents, confidence, support,
                  tidsA, tidsB, tidsAB, occurencesAfirst, occurrencesBlast):

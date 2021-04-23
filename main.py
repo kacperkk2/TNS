@@ -1,6 +1,8 @@
 from TNS import TNS, Data
 
 if __name__ == '__main__':
+    # IMPORTANT: tidlists elements should be in lexical order
+    # (need to remember when load data from external resource)
     tidlists = [
         [[1], [1,2,3], [1,3], [4], [3,6]],
         [[1,4], [3], [2,3], [1,5]],

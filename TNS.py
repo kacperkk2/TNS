@@ -1,6 +1,7 @@
 from RBTree import RBTree
 from Rule import Rule
 
+
 class Data:
     def __init__(self, data):
         # tidlists, each tidlist has sequences, each sequence has items
@@ -147,7 +148,51 @@ class TNS:
                 self.save_to_top_k_rules(new_rule, BA_support)
             save_to_candidates(new_rule, expandLR=True)
 
+    def save_to_top_k_rules(self, rule, support):
+        lower_node = self.top_k_rules.lower_node(
+            Rule(None, None, 0, support+1, None, None, None, None, None)
+        )
+        rules_to_delete = set()
+        while lower_node is not None \
+                and lower_node.rule is not None \
+                and lower_node.rule.support == support:
+            if rule.confidence == lower_node.rule.confidence and subsume(lower_node.rule, rule):
+                return
+            if rule.confidence == lower_node.rule.confidence and subsume(rule, lower_node.rule):
+                rules_to_delete.add(lower_node.rule)
+            lower_node = self.top_k_rules.lower_node(lower_node.rule)
 
+        for rule_to_del in rules_to_delete:
+            self.top_k_rules.remove(rule_to_del)
+
+        self.top_k_rules.add(rule)
+        if self.top_k_rules.size() > self.k:
+            if support > self.dynamic_min_support:
+                lower = self.top_k_rules.lower(
+                    None, None, 0, self.dynamic_min_support+1, None, None, None, None, None
+                )
+                if lower is not None:
+                    self.top_k_rules.remove(lower)
+                    while self.top_k_rules.size() > self.k:
+                        lower = self.top_k_rules.lower(
+                            None, None, 0, self.dynamic_min_support + 1, None, None, None, None, None
+                        )
+                        if lower is None:
+                            break
+                        self.top_k_rules.remove(lower)
+            self.dynamic_min_support = self.top_k_rules.get_minimum().support
+
+    def save_to_candidates(self, rule, expandLR):
+        rule.expandLR = expandLR
+        self.rules_candidates.add(rule)
+
+    def expandL(self, rule):
+        # TODO
+        pass
+
+    def expandR(self, rule):
+        # TODO
+        pass
 
 
 
