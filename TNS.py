@@ -1,6 +1,6 @@
 from RBTree import RBTree
-from Rule import Rule
-
+from Rule import Rule, subsume
+from copy import deepcopy
 
 class Data:
     def __init__(self, data):
@@ -74,16 +74,16 @@ class TNS:
                     continue
                 self.find_rule_candidates(itemA, itemB, tidlistsAB, tidlistsBA)
 
-        while len(self.rules_candidates) > 0:
+        while self.rules_candidates.size > 0:
             rule = self.rules_candidates.pop_maximum()
             if rule.support < self.dynamic_min_support:
                 break
 
             if rule.expandLR:
-                expandL(rule)
-                expandR(rule)
+                self.expandL(rule)
+                self.expandR(rule)
             else:
-                expandL(rule)
+                self.expandL(rule)
 
     def find_common_tidlists(self, itemA, itemB):
         tidlistsAB = set()
@@ -136,7 +136,7 @@ class TNS:
                             tidlistsAB, self.first_occurrences[itemA], self.last_occurrences[itemB])
             if AB_confidence >= self.min_confidence:
                 self.save_to_top_k_rules(new_rule, AB_support)
-            save_to_candidates(new_rule, expandLR=True)
+            self.save_to_candidates(new_rule, expandLR=True)
 
         BA_support = len(tidlistsBA)
         if BA_support >= self.dynamic_min_support:
@@ -146,7 +146,7 @@ class TNS:
                             tidlistsBA, self.first_occurrences[itemB], self.last_occurrences[itemA])
             if BA_confidence >= self.min_confidence:
                 self.save_to_top_k_rules(new_rule, BA_support)
-            save_to_candidates(new_rule, expandLR=True)
+            self.save_to_candidates(new_rule, expandLR=True)
 
     def save_to_top_k_rules(self, rule, support):
         lower_node = self.top_k_rules.lower_node(
@@ -166,14 +166,14 @@ class TNS:
             self.top_k_rules.remove(rule_to_del)
 
         self.top_k_rules.add(rule)
-        if self.top_k_rules.size() > self.k:
+        if self.top_k_rules.size > self.k:
             if support > self.dynamic_min_support:
                 lower = self.top_k_rules.lower(
                     None, None, 0, self.dynamic_min_support+1, None, None, None, None, None
                 )
                 if lower is not None:
                     self.top_k_rules.remove(lower)
-                    while self.top_k_rules.size() > self.k:
+                    while self.top_k_rules.size > self.k:
                         lower = self.top_k_rules.lower(
                             None, None, 0, self.dynamic_min_support + 1, None, None, None, None, None
                         )
@@ -186,13 +186,113 @@ class TNS:
         rule.expandLR = expandLR
         self.rules_candidates.add(rule)
 
-    def expandL(self, rule):
-        # TODO
-        pass
+    def expandL(self, rule:Rule):
+        ## Not checking max antescendants size
+        frequent_items_c = {}
+        left = len(rule.tidsAB)
 
-    def expandR(self, rule):
-        # TODO
-        pass
+        # work through lists where this rule applies
+        for tid in rule.tidsAB:
+            sequence = self.data.tidlists[tid]
+            end = rule.occurrencesBlast[tid] # ending position
+
+            # dive into the sequence
+            for itemset_ind in range(end):
+                itemset = sequence[itemset_ind]
+                for itemC in itemset:
+                    if itemC in rule.antecedents or itemC in rule.consequents:
+                        continue
+                
+                    tids_item_c = frequent_items_c.get(itemC)
+                    if tids_item_c is None:
+                        if left < self.dynamic_min_support:
+                            break
+                    elif len(tids_item_c) + left < self.dynamic_min_support:
+                        tids_item_c.remove(itemC)
+                        break
+                    
+                    if tids_item_c is None:
+                        tids_item_c = set()
+                        frequent_items_c[itemC] = tids_item_c
+                    tids_item_c.add(tid)
+        left-=1
+
+        for itemC, tidsAC_B in frequent_items_c.items():
+            if len(tidsAC_B) >= self.dynamic_min_support:
+                tidsAC = set()
+                for tid in rule.tidsA:
+                    if tid in self.first_occurrences[itemC]:
+                        tidsAC.add(tid)
+                
+                # Create rule and calculate its confidence
+                confAC_B = len(tidsAC_B) / len(tidsAC)
+                itemsetAC = deepcopy(rule.antecedents)
+                itemsetAC.append(itemC)
+
+                # If confidence high enough, it is a valid rule
+                candidate = Rule(itemsetAC, rule.consequents, confAC_B, len(tidsAC_B), 
+                                 tidsAC, None, tidsAC_B, None, rule.occurrencesBlast)
+                if confAC_B >= self.min_confidence:
+                    self.save_to_top_k_rules(candidate, len(tidsAC_B))
+                self.save_to_candidates(candidate, expandLR=False)
+
+    def expandR(self, rule:Rule):
+        ## Not checking max antescendants size
+        frequent_items_c = {}
+        left = len(rule.tidsAB)
+
+        # work through lists where this rule applies
+        for tid in rule.tidsAB:
+            sequence = self.data.tidlists[tid]
+            first = rule.occurencesAfirst[tid] # starting position
+
+            for itemset_ind in range(first+1, len(sequence)):
+                itemset = sequence[itemset_ind]
+                for itemC in itemset:
+                    if itemC in rule.antecedents or itemC in rule.consequents:
+                        continue
+
+                    tids_item_c = frequent_items_c.get(itemC)
+                    if tids_item_c is None:
+                        if left < self.dynamic_min_support:
+                            break
+                    elif len(tids_item_c) + left < self.dynamic_min_support:
+                        tids_item_c.remove(itemC)
+                        break
+                    
+                    if tids_item_c is None:
+                        tids_item_c = set()
+                        frequent_items_c[itemC] = tids_item_c
+                    tids_item_c.add(tid)
+        left-=1
+
+        for itemC, tidsA_BC in frequent_items_c.items():
+            if len(tidsA_BC) >= self.dynamic_min_support:
+                tidsBC = set()
+                occurencesBC = {}
+
+                for tid in rule.tidsB:
+                    occurence_C_last = self.last_occurrences[itemC].get(tid)
+                    if occurence_C_last is not None:
+                        tidsBC.add(tid)
+                        occurence_B_last = rule.occurrencesBlast.get(tid)
+                        if occurence_C_last < occurence_B_last:
+                            occurencesBC[tid] = occurence_C_last
+                        else:
+                            occurencesBC[tid] = occurence_B_last
+                
+                
+                # Create rule I ==> J U{c} and calculate its confidence
+                confA_BC = len(tidsA_BC) / len(rule.tidsA)
+                itemsetBC = deepcopy(rule.consequents)
+                itemsetBC.append(itemC)
+
+                # if the confidence is enough
+                candidate = Rule(rule.antecedents, itemsetBC, confA_BC, len(tidsA_BC),
+                                rule.tidsA, tidsBC, tidsA_BC, rule.occurencesAfirst, occurencesBC)
+                if confA_BC >= self.min_confidence:
+                    self.save_to_top_k_rules(candidate, len(tidsA_BC))
+                self.save_to_candidates(candidate, expandLR=True)
 
 
 
