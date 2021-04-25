@@ -63,7 +63,7 @@ class TNS:
             if len(self.first_occurrences[itemA]) < self.dynamic_min_support:
                 continue
 
-            for itemB in range(itemA+1, self.data.max_item, 1):
+            for itemB in range(itemA+1, self.data.max_item+1, 1):
                 if itemB not in self.first_occurrences:
                     continue
                 if len(self.first_occurrences[itemB]) < self.dynamic_min_support:
@@ -74,6 +74,7 @@ class TNS:
                     continue
                 self.find_rule_candidates(itemA, itemB, tidlistsAB, tidlistsBA)
 
+        # to this moment working fine
         while self.rules_candidates.size > 0:
             rule = self.rules_candidates.pop_maximum()
             if rule.support < self.dynamic_min_support:
@@ -169,13 +170,13 @@ class TNS:
         if self.top_k_rules.size > self.k:
             if support > self.dynamic_min_support:
                 lower = self.top_k_rules.lower(
-                    None, None, 0, self.dynamic_min_support+1, None, None, None, None, None
+                    Rule(None, None, 0, self.dynamic_min_support+1, None, None, None, None, None)
                 )
                 if lower is not None:
                     self.top_k_rules.remove(lower)
                     while self.top_k_rules.size > self.k:
                         lower = self.top_k_rules.lower(
-                            None, None, 0, self.dynamic_min_support + 1, None, None, None, None, None
+                            Rule(None, None, 0, self.dynamic_min_support + 1, None, None, None, None, None)
                         )
                         if lower is None:
                             break

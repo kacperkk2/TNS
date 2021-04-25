@@ -9,10 +9,12 @@ def subsume(rule1, rule2):
         return rule2_ant_contain_rule1_ant and rule1_con_contain_rule2_con
     return False
 
+count = 0
 
 class Rule:
     def __init__(self, antecedents, consequents, confidence, support,
                  tidsA, tidsB, tidsAB, occurencesAfirst, occurrencesBlast):
+        global count
         self.antecedents = antecedents
         self.consequents = consequents
         self.confidence = confidence
@@ -23,6 +25,8 @@ class Rule:
         self.occurencesAfirst = occurencesAfirst
         self.occurrencesBlast = occurrencesBlast
         self.expandLR = False
+        self.count = count
+        count += 1
 
     def __str__(self):
         ant = ','.join(str(x) for x in self.antecedents)
@@ -51,4 +55,4 @@ class Rule:
         if compare4 != 0:
             return compare4
 
-        return 0
+        return self.count - o.count

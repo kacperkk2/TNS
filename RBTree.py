@@ -27,7 +27,7 @@ class RBTree:
     def rotate_left(self, x):
         y = x.right
         x.right = y.left
-        if y.left is self.sentinel:
+        if y.left is not self.sentinel:
             y.left.parent = x
         y.parent = x.parent
         if x.parent is self.sentinel:
@@ -83,7 +83,7 @@ class RBTree:
         self.after_add_fix(z)
         
     def after_add_fix(self, z):
-        while z is not self.root and z.parent.color is RED:
+        while z.parent.color is RED:
             if z.parent is z.parent.parent.left:
                 y = z.parent.parent.right
                 if y.color is RED:

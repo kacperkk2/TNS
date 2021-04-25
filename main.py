@@ -11,5 +11,6 @@ if __name__ == '__main__':
     ]
     data = Data(tidlists)
     algorithm = TNS()
-    algorithm.run(data, k=10, min_conf=0.5, delta=40)
+    rules = algorithm.run(data, k=10, min_conf=0.5, delta=2)
+    print(rules)
 
