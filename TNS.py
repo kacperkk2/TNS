@@ -1,5 +1,6 @@
 from RBTree import RBTree
 from Rule import Rule, subsume
+from ArrayAlgos import contains_lex, contains_lex_plus
 from copy import deepcopy
 
 class Data:
@@ -201,7 +202,7 @@ class TNS:
             for itemset_ind in range(end):
                 itemset = sequence[itemset_ind]
                 for itemC in itemset:
-                    if itemC in rule.antecedents or itemC in rule.consequents:
+                    if contains_lex_plus(rule.antecedents, itemC) or contains_lex(rule.consequents, itemC):
                         continue
                 
                     tids_item_c = frequent_items_c.get(itemC)
@@ -250,16 +251,16 @@ class TNS:
             for itemset_ind in range(first+1, len(sequence)):
                 itemset = sequence[itemset_ind]
                 for itemC in itemset:
-                    if itemC in rule.antecedents or itemC in rule.consequents:
+                    if contains_lex(rule.antecedents, itemC) or contains_lex_plus(rule.consequents, itemC):
                         continue
 
                     tids_item_c = frequent_items_c.get(itemC)
                     if tids_item_c is None:
                         if left < self.dynamic_min_support:
-                            break
+                            continue
                     elif len(tids_item_c) + left < self.dynamic_min_support:
                         tids_item_c.remove(itemC)
-                        break
+                        continue
                     
                     if tids_item_c is None:
                         tids_item_c = set()
