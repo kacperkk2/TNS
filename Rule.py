@@ -31,7 +31,7 @@ class Rule:
     def __str__(self):
         ant = ','.join(str(x) for x in self.antecedents)
         con = ','.join(str(x) for x in self.consequents)
-        return ant + " ==> " + con
+        return ant + " ==> " + con + f"  sup= {self.support}  conf= {self.confidence}"
     
     def compare(self, o):
         if o is self:

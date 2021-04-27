@@ -287,7 +287,7 @@ class RBTree:
         if node is not None and node.rule is not None:
             if node.left is not None:
                 s = self.to_str(node.left, s)
-            s += str(node.rule) + " | "
+            s += str(node.rule) + "\n"
             if node.right is not None:
                 s = self.to_str(node.right, s)
         return s
