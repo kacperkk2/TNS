@@ -42,7 +42,13 @@ class TNS:
 
         self.prepare_occurrences_dicts()
         self.generate_rules()
+        self.crop_to_k_rules(k)
         return self.top_k_rules
+
+    def crop_to_k_rules(self, k):
+        while self.top_k_rules.size > k:
+            self.top_k_rules.pop_minimum()
+        self.dynamic_min_support = self.top_k_rules.get_minimum().support
 
     def prepare_occurrences_dicts(self):
         for tidlist_num, tidlist in enumerate(self.data.tidlists):
@@ -217,7 +223,7 @@ class TNS:
                         tids_item_c = set()
                         frequent_items_c[itemC] = tids_item_c
                     tids_item_c.add(tid)
-        left-=1
+            left -= 1
 
         for itemC, tidsAC_B in frequent_items_c.items():
             if len(tidsAC_B) >= self.dynamic_min_support:
@@ -266,7 +272,7 @@ class TNS:
                         tids_item_c = set()
                         frequent_items_c[itemC] = tids_item_c
                     tids_item_c.add(tid)
-        left-=1
+            left -= 1
 
         for itemC, tidsA_BC in frequent_items_c.items():
             if len(tidsA_BC) >= self.dynamic_min_support:
