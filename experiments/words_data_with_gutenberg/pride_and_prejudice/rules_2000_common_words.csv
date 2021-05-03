@@ -1,0 +1,20 @@
+['copi'],['work'],12,0.7058823529411765
+['copi'],['project'],12,0.7058823529411765
+"['project', 'term']",['gutenbergtm'],13,0.7222222222222222
+['distribut'],['work'],14,0.7777777777777778
+['thousand'],['pound'],15,0.6818181818181818
+"['catherin', 'de']",['bourgh'],15,0.8823529411764706
+"['miss', 'de']",['bourgh'],16,0.9411764705882353
+"['ladi', 'de']",['bourgh'],17,0.9444444444444444
+['dare'],['say'],19,0.5588235294117647
+['gutenbergtm'],"['work', 'electron']",19,0.5135135135135135
+"['project', 'electron']",['work'],19,1.0
+"['gutenbergtm', 'electron']",['work'],19,1.0
+['chapter'],['elizabeth'],23,0.6764705882352942
+['electron'],['work'],23,1.0
+['gutenbergtm'],['work'],28,0.7567567567567568
+['project'],"['work', 'gutenbergtm']",28,0.5714285714285714
+['project'],['work'],30,0.6122448979591837
+['sir'],['william'],31,0.7380952380952381
+['de'],['bourgh'],31,0.96875
+['project'],['gutenbergtm'],37,0.7551020408163265
