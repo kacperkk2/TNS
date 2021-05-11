@@ -3,6 +3,9 @@ from TNS import TNS, Data
 if __name__ == '__main__':
     # IMPORTANT: tidlists elements should be in lexical order
     # (need to remember when load data from external resource)
+
+    # TODO
+    # IMPORTANT: if we load text we should give biggest lexicographical word the bigger number in data
     tidlists = [
         [[1], [1,2,3], [1,3], [4], [3,6]],
         [[1,4], [3], [2,3], [1,5]],
