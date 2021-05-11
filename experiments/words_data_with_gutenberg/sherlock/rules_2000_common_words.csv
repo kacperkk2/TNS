@@ -1,0 +1,20 @@
+"['project', 'archiv']",['foundat'],11,1.0
+"['gutenberg', 'literari']","['foundat', 'archiv']",11,1.0
+"['project', 'literari']","['foundat', 'archiv']",11,1.0
+['copi'],['work'],12,0.6666666666666666
+['copi'],['project'],12,0.6666666666666666
+['distribut'],['project'],12,0.6666666666666666
+['term'],"['project', 'gutenbergtm']",13,0.5909090909090909
+"['project', 'term']",['gutenbergtm'],13,0.7647058823529411
+['term'],['project'],14,0.6363636363636364
+['distribut'],['work'],14,0.7777777777777778
+['gutenbergtm'],"['work', 'electron']",19,0.5135135135135135
+"['project', 'electron']",['work'],19,1.0
+"['gutenbergtm', 'electron']",['work'],19,1.0
+['baker'],['street'],23,0.8214285714285714
+['electron'],['work'],23,1.0
+['gutenbergtm'],['work'],28,0.7567567567567568
+['project'],"['work', 'gutenbergtm']",28,0.56
+['project'],['work'],30,0.6
+['project'],['gutenbergtm'],37,0.74
+['sherlock'],['holm'],54,1.0

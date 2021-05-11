@@ -1,0 +1,20 @@
+['yellow'],['light'],6,0.5454545454545454
+['king'],['bohemia'],6,0.6666666666666666
+['copper'],['beech'],6,0.6666666666666666
+['brioni'],['lodg'],6,1.0
+['jabez'],['wilson'],6,1.0
+['stoke'],['moran'],6,1.0
+['fuller'],['searth'],6,1.0
+"['said', 'watson']",['holm'],6,0.5
+"['said', 'sherlock']",['holm'],6,0.75
+"['holm', 'baker']",['street'],6,0.8571428571428571
+"['miss', 'mari']",['sutherland'],6,1.0
+['ten'],['minut'],7,0.5
+['held'],['hand'],7,0.5384615384615384
+['opium'],['den'],7,0.7777777777777778
+['orang'],['pip'],7,0.7777777777777778
+['lie'],['upon'],8,0.5714285714285714
+['boscomb'],['pool'],10,0.8333333333333334
+['iren'],['adler'],10,1.0
+['baker'],['street'],23,0.8214285714285714
+['sherlock'],['holm'],55,1.0

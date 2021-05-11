@@ -231,7 +231,12 @@ class TNS:
                         if left < self.dynamic_min_support:
                             break
                     elif len(tids_item_c) + left < self.dynamic_min_support:
-                        tids_item_c.remove(itemC)
+                        # print(itemC)
+                        try:
+                            tids_item_c.remove(itemC)
+                        except KeyError:
+                            pass
+                            # print(itemC, "not in set - exp L")
                         break
                     
                     if tids_item_c is None:
@@ -284,7 +289,12 @@ class TNS:
                         if left < self.dynamic_min_support:
                             continue
                     elif len(tids_item_c) + left < self.dynamic_min_support:
-                        tids_item_c.remove(itemC)
+                        # print(itemC)
+                        try:
+                            tids_item_c.remove(itemC)
+                        except KeyError:
+                            pass
+                            # print(itemC, "not in set - exp R")
                         continue
                     
                     if tids_item_c is None:

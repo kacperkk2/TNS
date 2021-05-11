@@ -1,0 +1,20 @@
+"['turn', 'eye']",['toward'],5,0.5
+"['next', 'chapter']",['morn'],5,0.7142857142857143
+"['elizabeth', 'de']",['bourgh'],5,0.7142857142857143
+"['elizabeth', 'said', 'miss']",['bennet'],5,0.5
+"['miss', 'ladi', 'de']",['bourgh'],5,0.8333333333333334
+['elder'],['sister'],6,0.5454545454545454
+['georg'],['wickham'],6,0.8571428571428571
+['gracechurch'],['street'],6,1.0
+"['one', 'dare']",['say'],6,0.6666666666666666
+"['miss', 'hurst']",['bingley'],6,0.75
+"['collin', 'de']",['bourgh'],6,1.0
+['hurst'],['miss'],8,0.5
+['thousand'],['pound'],15,0.6818181818181818
+"['catherin', 'de']",['bourgh'],15,0.8823529411764706
+"['miss', 'de']",['bourgh'],16,0.9411764705882353
+"['ladi', 'de']",['bourgh'],17,0.9444444444444444
+['dare'],['say'],19,0.5588235294117647
+['chapter'],['elizabeth'],24,0.6666666666666666
+['sir'],['william'],31,0.7380952380952381
+['de'],['bourgh'],31,0.96875
