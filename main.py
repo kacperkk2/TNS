@@ -11,6 +11,8 @@ if __name__ == '__main__':
     ]
     data = Data(tidlists)
     algorithm = TNS()
-    rules = algorithm.run(data, k=10, min_conf=0.5, delta=2)
+    rules, exec_time_seconds, memory_usage_bytes = algorithm.run(data, k=10, min_conf=0.5, delta=2)
     print(rules)
+    print(exec_time_seconds, "s")
+    print(memory_usage_bytes, "bytes")
 

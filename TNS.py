@@ -2,6 +2,10 @@ from RBTree import RBTree
 from Rule import Rule, subsume
 from ArrayAlgos import contains_lex, contains_lex_plus
 from copy import deepcopy
+import time
+import resource
+import psutil
+
 
 class Data:
     def __init__(self, data):
@@ -29,6 +33,9 @@ class TNS:
         self.first_occurrences = {}
         self.last_occurrences = {}
 
+        self.start_mem = 0
+        self.max_memory = 0
+
     def run(self, data, k, min_conf, delta):
         self.data = data
         self.delta = delta
@@ -40,10 +47,15 @@ class TNS:
         self.top_k_rules = RBTree()
         self.rules_candidates = RBTree()
 
+        self.start_mem = psutil.virtual_memory().used
+
+        time_start = time.time()
         self.prepare_occurrences_dicts()
         self.generate_rules()
         self.crop_to_k_rules(k)
-        return self.top_k_rules
+        time_end = time.time()
+
+        return self.top_k_rules, time_end - time_start, self.max_memory
 
     def crop_to_k_rules(self, k):
         while self.top_k_rules.size > k:
@@ -81,7 +93,6 @@ class TNS:
                     continue
                 self.find_rule_candidates(itemA, itemB, tidlistsAB, tidlistsBA)
 
-        # to this moment working fine
         while self.rules_candidates.size > 0:
             rule = self.rules_candidates.pop_maximum()
             if rule.support < self.dynamic_min_support:
@@ -193,6 +204,10 @@ class TNS:
     def save_to_candidates(self, rule, expandLR):
         rule.expandLR = expandLR
         self.rules_candidates.add(rule)
+        # memory check
+        delta_mem = psutil.virtual_memory().used - self.start_mem
+        if delta_mem > self.max_memory:
+            self.max_memory = delta_mem
 
     def expandL(self, rule:Rule):
         ## Not checking max antescendants size
@@ -243,6 +258,10 @@ class TNS:
                 if confAC_B >= self.min_confidence:
                     self.save_to_top_k_rules(candidate, len(tidsAC_B))
                 self.save_to_candidates(candidate, expandLR=False)
+        # memory check
+        delta_mem = psutil.virtual_memory().used - self.start_mem
+        if delta_mem > self.max_memory:
+            self.max_memory = delta_mem
 
     def expandR(self, rule:Rule):
         ## Not checking max antescendants size
@@ -301,7 +320,10 @@ class TNS:
                 if confA_BC >= self.min_confidence:
                     self.save_to_top_k_rules(candidate, len(tidsA_BC))
                 self.save_to_candidates(candidate, expandLR=True)
-
+        # memory check
+        delta_mem = psutil.virtual_memory().used - self.start_mem
+        if delta_mem > self.max_memory:
+            self.max_memory = delta_mem
 
 
 
