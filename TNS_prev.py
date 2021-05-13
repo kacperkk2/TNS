@@ -24,7 +24,7 @@ class Data:
 
 class TNS:
     def __init__(self):
-        print("Using TNS+ETARM")
+        print("Using old TNS")
         self.data = None
         self.min_confidence = None
         self.delta = None
@@ -97,7 +97,6 @@ class TNS:
 
         while self.rules_candidates.size > 0:
             rule = self.rules_candidates.pop_maximum()
-
             if rule.support < self.dynamic_min_support:
                 break
 
@@ -106,10 +105,6 @@ class TNS:
                 self.expandR(rule)
             else:
                 self.expandL(rule)
-
-            while self.rules_candidates.get_minimum() is not None \
-                    and self.rules_candidates.get_minimum().support < self.dynamic_min_support:
-                self.rules_candidates.pop_minimum()
 
     def find_common_tidlists(self, itemA, itemB):
         tidlistsAB = set()
@@ -162,15 +157,7 @@ class TNS:
                             tidlistsAB, self.first_occurrences[itemA], self.last_occurrences[itemB])
             if AB_confidence >= self.min_confidence:
                 self.save_to_top_k_rules(new_rule, AB_support)
-
-            # If the largest item in the antecedent of a rule according to the
-            # lexicographical order is also the largest item in the database,
-            # the rule antecedent should not be expanded by a left expansion
-            if itemA == self.data.max_item:
-                expandLR = False
-            else:
-                expandLR = True
-            self.save_to_candidates(new_rule, expandLR=expandLR)
+            self.save_to_candidates(new_rule, expandLR=True)
 
         BA_support = len(tidlistsBA)
         if BA_support >= self.dynamic_min_support:
@@ -180,15 +167,7 @@ class TNS:
                             tidlistsBA, self.first_occurrences[itemB], self.last_occurrences[itemA])
             if BA_confidence >= self.min_confidence:
                 self.save_to_top_k_rules(new_rule, BA_support)
-
-            # If the largest item in the antecedent of a rule according to the
-            # lexicographical order is also the largest item in the database,
-            # the rule antecedent should not be expanded by a left expansion
-            if itemB == self.data.max_item:
-                expandLR = False
-            else:
-                expandLR = True
-            self.save_to_candidates(new_rule, expandLR=expandLR)
+            self.save_to_candidates(new_rule, expandLR=True)
 
     def save_to_top_k_rules(self, rule, support):
         lower_node = self.top_k_rules.lower_node(
@@ -292,12 +271,6 @@ class TNS:
             self.max_memory = delta_mem
 
     def expandR(self, rule:Rule):
-        # If the confidence of a rule is less than min-conf,
-        # it should not be expanded by right expansion,
-        # as the resulting rule will not be a top-k rule
-        if rule.confidence < self.min_confidence:
-            return
-
         ## Not checking max antescendants size
         frequent_items_c = {}
         left = len(rule.tidsAB)

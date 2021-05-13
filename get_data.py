@@ -1,5 +1,5 @@
-def get_data():
-    with open('experiments/number_data/chess.txt', mode='r') as txtfile:
+def get_data(filename):
+    with open('experiments/number_data/'+filename, mode='r') as txtfile:
         lines = txtfile.readlines()
         tidlists = [[[int(elem)] for elem in line.split(' ') if elem.isdigit()] for line in lines]
         # print(tidlists[:10])
