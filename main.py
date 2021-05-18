@@ -30,6 +30,8 @@ if __name__ == '__main__':
     algorithm = TNS() if algo_ver == 'ETARM' else TNS_prev()
     rules, exec_time_seconds, memory_usage_bytes = algorithm.run(data, k=int(sys.argv[2]), min_conf=min_conf, delta=delta)
     # print(rules)
+    print(str(rules)[:200])
+    print(rules.size)
     print(exec_time_seconds, "s")
     print(memory_usage_bytes, "bytes")
 

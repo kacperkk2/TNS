@@ -1,0 +1,50 @@
+"['black', 'frockcoat']",['gaiter'],4,0.6666666666666666
+"['day', 'baker']",['street'],4,0.8
+"['cri', 'rais']",['fire'],4,0.8
+"['seem', 'young']",['ladi'],4,0.8
+"['five', 'dri']",['pip'],4,1.0
+"['five', 'orang']",['pip'],4,1.0
+['sunk'],['upon'],5,0.5555555555555556
+['weight'],['upon'],5,0.5555555555555556
+['card'],['upon'],5,0.5555555555555556
+['flora'],['millar'],5,0.625
+['fingertip'],['togeth'],5,0.7142857142857143
+['brixton'],['road'],5,0.8333333333333334
+['duncan'],['ross'],5,1.0
+['godfrey'],['norton'],5,1.0
+"['said', 'pray']",['holm'],5,0.625
+"['holm', 'lay']",['upon'],5,0.625
+"['holm', 'left']",['us'],5,0.625
+['hydraul'],['engin'],6,0.5454545454545454
+['nevil'],['st'],6,0.8571428571428571
+['shrug'],['shoulder'],6,1.0
+['saxecoburg'],['squar'],6,1.0
+"['holm', 'baker']",['street'],6,0.75
+"['miss', 'mari']",['sutherland'],6,0.8571428571428571
+"['roylott', 'stoke']",['moran'],6,1.0
+['georg'],['burnwel'],7,0.5
+['opium'],['den'],7,0.6363636363636364
+['orang'],['pip'],7,0.7
+['lysand'],['stark'],7,1.0
+['fuller'],['searth'],7,1.0
+['lean'],"['back', 'chair']",7,0.5384615384615384
+"['sir', 'georg']",['burnwel'],7,0.7777777777777778
+"['back', 'lean']",['chair'],7,0.875
+['lean'],['back'],8,0.6153846153846154
+['shook'],['head'],8,0.6153846153846154
+['depend'],['upon'],8,0.8
+['scotland'],['yard'],8,0.8888888888888888
+['swandam'],['lane'],8,1.0
+['grimesbi'],['roylott'],8,1.0
+['jabez'],['wilson'],8,1.0
+['hosmer'],['angel'],9,0.6923076923076923
+['henri'],['baker'],9,1.0
+"['said', 'sherlock']",['holm'],9,0.8181818181818182
+['boscomb'],['pool'],10,0.7142857142857143
+['stoke'],['moran'],10,1.0
+['copper'],['beech'],11,0.7857142857142857
+['brioni'],['lodg'],11,1.0
+['iren'],['adler'],13,0.9285714285714286
+['lord'],['st'],20,0.7692307692307693
+['baker'],['street'],29,0.7631578947368421
+['sherlock'],['holm'],87,1.0

@@ -1,0 +1,50 @@
+['sir'],['william'],41,0.6507936507936508
+['de'],['bourgh'],37,0.9736842105263158
+['dare'],['say'],30,0.6122448979591837
+['chapter'],['elizabeth'],28,0.56
+"['miss', 'de']",['bourgh'],20,0.9523809523809523
+['thousand'],['pound'],19,0.6129032258064516
+"['ladi', 'de']",['bourgh'],18,0.9473684210526315
+"['catherin', 'de']",['bourgh'],16,0.8888888888888888
+"['miss', 'hurst']",['bingley'],8,0.8
+['gracechurch'],['street'],7,1.0
+['georg'],['wickham'],7,0.875
+"['collin', 'de']",['bourgh'],6,1.0
+"['darci', 'colonel']",['fitzwilliam'],6,0.6666666666666666
+"['one', 'dare']",['say'],6,0.6666666666666666
+['insist'],['upon'],6,0.6
+['elder'],['sister'],6,0.5
+"['miss', 'ladi', 'de']",['bourgh'],5,0.8333333333333334
+"['elizabeth', 'colonel']",['fitzwilliam'],5,0.8333333333333334
+"['may', 'depend']",['upon'],5,0.8333333333333334
+"['elizabeth', 'de']",['bourgh'],5,0.7142857142857143
+"['one', 'thousand']",['pound'],5,0.7142857142857143
+"['elizabeth', 'sir']",['william'],5,0.625
+"['next', 'chapter']",['morn'],5,0.625
+"['morn', 'chapter']",['mr'],5,0.5555555555555556
+"['thousand', 'ten']",['pound'],5,0.5555555555555556
+"['day', 'chapter']",['mr'],5,0.5
+"['said', 'dear']",['mr'],5,0.5
+['lift'],['eye'],5,1.0
+['drive'],['away'],5,0.625
+"['miss', 'collin', 'de']",['bourgh'],4,1.0
+"['elizabeth', 'next', 'chapter']",['morn'],4,0.6666666666666666
+"['elizabeth', 'morn', 'chapter']",['mr'],4,0.5714285714285714
+"['could', 'de']",['bourgh'],4,1.0
+"['sir', 'de']",['bourgh'],4,1.0
+"['wish', 'de']",['bourgh'],4,0.8
+"['wickham', 'thousand']",['pound'],4,0.8
+"['even', 'sir']",['william'],4,0.8
+"['cousin', 'de']",['bourgh'],4,0.8
+"['bennet', 'hope']",['might'],4,0.5714285714285714
+"['day', 'last']",['mr'],4,0.5714285714285714
+"['jane', 'chapter']",['mr'],4,0.5714285714285714
+"['ladi', 'cousin']",['catherin'],4,0.5714285714285714
+"['ladi', 'speak']",['catherin'],4,0.5714285714285714
+"['ladi', 'hear']",['catherin'],4,0.5714285714285714
+"['one', 'young']",['ladi'],4,0.5
+"['next', 'chapter']",['mr'],4,0.5
+"['say', 'wish']",['might'],4,0.5
+"['bingley', 'pleasur']",['see'],4,0.5
+"['next', 'chapter']",['day'],4,0.5
+"['sister', 'arriv']",['elizabeth'],4,0.5
