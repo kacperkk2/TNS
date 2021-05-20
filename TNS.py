@@ -37,8 +37,9 @@ class TNS:
 
         self.start_mem = 0
         self.max_memory = 0
+        self.min_antecedents = 1
 
-    def run(self, data, k, min_conf, delta):
+    def run(self, data, k, min_conf, delta, min_antecedents):
         self.data = data
         self.delta = delta
         self.min_confidence = min_conf
@@ -48,6 +49,7 @@ class TNS:
         self.last_occurrences = {}
         self.top_k_rules = RBTree()
         self.rules_candidates = RBTree()
+        self.min_antecedents = min_antecedents
 
         self.start_mem = process.memory_info().rss
 
@@ -207,7 +209,8 @@ class TNS:
         for rule_to_del in rules_to_delete:
             self.top_k_rules.remove(rule_to_del)
 
-        self.top_k_rules.add(rule)
+        if len(rule.antecedents) >= self.min_antecedents:
+            self.top_k_rules.add(rule)
         if self.top_k_rules.size > self.k:
             if support > self.dynamic_min_support:
                 lower = self.top_k_rules.lower(

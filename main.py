@@ -22,13 +22,15 @@ if __name__ == '__main__':
     print("min_conf:", min_conf)
     delta = int(sys.argv[4]) if len(sys.argv) > 4 else 2
     print("delta:", delta)
-    algo_ver = sys.argv[5] if len(sys.argv) > 5 else 'ETARM'
+    min_ant = sys.argv[5] if len(sys.argv) > 5 else 1
+    print("min_antecedents:", min_ant)
+    algo_ver = sys.argv[6] if len(sys.argv) > 6 else 'ETARM'
     print("algo_ver:", algo_ver)
 
     tidlists = get_data(sys.argv[1])
     data = Data(tidlists)
     algorithm = TNS() if algo_ver == 'ETARM' else TNS_prev()
-    rules, exec_time_seconds, memory_usage_bytes = algorithm.run(data, k=int(sys.argv[2]), min_conf=min_conf, delta=delta)
+    rules, exec_time_seconds, memory_usage_bytes = algorithm.run(data, k=int(sys.argv[2]), min_conf=min_conf, delta=delta, min_antecedents=min_ant)
     # print(rules)
     print(str(rules)[:200])
     print(rules.size)
